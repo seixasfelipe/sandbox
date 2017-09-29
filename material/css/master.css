@@ -32,16 +32,31 @@ header {
   z-index: 1;
   position: fixed;
 }
+
 header .container {
   background-color: #f50057;
   color: #ffffff;
   padding: 4px 16px;
   vertical-align: middle;
+  display: flex;
+  justify-content: space-between;
 }
 
 header span.title {
-  font-size: 18px;
+  font-size: 20px;
   margin-left: 26px;
+  vertical-align: top;
+  line-height: 40px
 }
 
+button {
+  background: transparent center center no-repeat;
+  background-size: 24px 24px;
+  cursor: pointer;
+  border: 0;
+  color: inherit;
+}
 
+button:focus {
+  outline: 0;
+}

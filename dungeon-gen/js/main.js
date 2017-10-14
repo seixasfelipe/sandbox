@@ -16,26 +16,23 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
 }
 
-function drawRoom(x, y, nbRows, nbCols) {
+function relativeSize(multiplier) {
+  return multiplier * tileSize + multiplier * tileBorder + tileBorder
+}
 
-  const initX = x
-  const initY = y + tileBorder
+function drawRoom(room) {
 
-  const relativeSize = function(multiplier) {
-    return multiplier * tileSize + multiplier * tileBorder + tileBorder
-  }
-
-  const width = relativeSize(nbRows)
-  const height = relativeSize(nbCols)
+  const initX = room.screen.x
+  const initY = room.screen.y + tileBorder
 
   // room tile borders
   ctx.fillStyle = "#abab9a"
-  ctx.fillRect(initX, initY, width, height)
+  ctx.fillRect(initX, initY, room.screen.width, room.screen.height)
 
   // room tiles
   ctx.fillStyle = "#c4c4b0"
-  for(let i=0; i<nbRows; i++) {
-    for(let j=0; j<nbCols; j++) {
+  for(let i=0; i<room.dimensions.nbRows; i++) {
+    for(let j=0; j<room.dimensions.nbCols; j++) {
       ctx.fillRect(initX + relativeSize(i),
         initY + relativeSize(j),
         tileSize,
@@ -45,7 +42,17 @@ function drawRoom(x, y, nbRows, nbCols) {
 
   // room top
   ctx.fillStyle = "#626258"
-  ctx.fillRect(initX, y, width, 2 * tileBorder)
+  ctx.fillRect(initX, room.screen.y, room.screen.width, 2 * tileBorder)
+}
+
+function createRoom() {
+  let x = getRandomIntInclusive(0, canvas.width)
+  let y = getRandomIntInclusive(0, canvas.height)
+  let nbRows = getRandomIntInclusive(2, 10)
+  let nbCols = getRandomIntInclusive(2, 10)
+
+  const width = relativeSize(nbRows)
+  const height = relativeSize(nbCols)
 
   return {
     screen: {
@@ -76,15 +83,12 @@ function generateDungeon() {
 
   clear()
 
-  let x, y, nbRows, nbCols
+
 
   for(let i=0; i<nbRooms; i++) {
-    x = getRandomIntInclusive(0, canvas.width)
-    y = getRandomIntInclusive(0, canvas.height)
-    nbRows = getRandomIntInclusive(2, 10)
-    nbCols = getRandomIntInclusive(2, 10)
 
-    drawRoom(x, y, nbRows, nbCols)
+    let room = createRoom()
+    drawRoom(room)
   }
 }
 

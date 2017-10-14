@@ -1,10 +1,13 @@
 let canvas = document.getElementById('canvas')
 let ctx = canvas.getContext('2d')
 
-canvas.width = 640;
-canvas.height = 480;
-ctx.fillStyle = "black"
-ctx.fillRect(0, 0, canvas.width, canvas.height)
+canvas.addEventListener('click', generateDungeon, false)
+canvas.width = 640
+canvas.height = 480
+
+const tileSize = 12
+const tileBorder = 1
+const nbRooms = 15
 
 // from: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 function getRandomIntInclusive(min, max) {
@@ -14,9 +17,6 @@ function getRandomIntInclusive(min, max) {
 }
 
 function drawRoom(x, y, nbRows, nbCols) {
-
-  const tileSize = 20
-  const tileBorder = 2
 
   const initX = x
   const initY = y + tileBorder
@@ -48,12 +48,16 @@ function drawRoom(x, y, nbRows, nbCols) {
   ctx.fillRect(initX, y, width, 2 * tileBorder)
 
   return {
-    x: x,
-    y: y,
-    width: width,
-    height: height,
-    nbRows: nbRows,
-    nbCols: nbCols,
+    screen: {
+      x: x,
+      y: y,
+      width: width,
+      height: height
+    },
+    dimensions: {
+      nbRows: nbRows,
+      nbCols: nbCols
+    },
     bounds: {
       upperLeft: { x: x, y: y },
       upperRight: { x: x + width, y: y },
@@ -63,9 +67,25 @@ function drawRoom(x, y, nbRows, nbCols) {
   }
 }
 
-const x = getRandomIntInclusive(0, canvas.width)
-const y = getRandomIntInclusive(0, canvas.height)
-const nbRows = getRandomIntInclusive(2, 10)
-const nbCols = getRandomIntInclusive(2, 10)
+function clear() {
+  ctx.fillStyle = "#d0d0d0"
+  ctx.fillRect(0, 0, canvas.width, canvas.height)
+}
 
-drawRoom(x, y, nbRows, nbCols)
+function generateDungeon() {
+
+  clear()
+
+  let x, y, nbRows, nbCols
+
+  for(let i=0; i<nbRooms; i++) {
+    x = getRandomIntInclusive(0, canvas.width)
+    y = getRandomIntInclusive(0, canvas.height)
+    nbRows = getRandomIntInclusive(2, 10)
+    nbCols = getRandomIntInclusive(2, 10)
+
+    drawRoom(x, y, nbRows, nbCols)
+  }
+}
+
+generateDungeon()

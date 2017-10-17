@@ -62,7 +62,6 @@ function drawRoom(room) {
   ctx.fillRect(initX, screenCoord.y, width, 2 * tileBorder)
 
   room.screenCoord = screenCoord
-  // console.log(room)
 }
 
 function createRoom() {
@@ -107,20 +106,6 @@ function storeRoom(room, value) {
     }
   } while( i < lastPos )
 
-  // for(let i=room.mapPos.row; i<room.dimensions.nbRows+room.mapPos.row; i++) {
-  //   for(let j=room.mapPos.col; j<room.dimensions.nbCols+room.mapPos.col; j++) {
-  //     let index = j + i*tilesPerRow
-  //
-  //     backup.push({ index: index, value: map[index] })
-  //
-  //     if(map[index] !== undefined) {
-  //       break
-  //     }
-  //
-  //     map[index] = value
-  //   }
-  // }
-
   if(backup.length < room.dimensions.nbRows * room.dimensions.nbCols) {
     backup.forEach(function(elem) {
       map[elem.index] = elem.value
@@ -148,117 +133,6 @@ function generateDungeon() {
     if(storeRoom(room, i+1))
       drawRoom(room)
   }
-
-  // let room = {mapPos: {row: 28, col: 31}, dimensions: {nbRows: 4, nbCols: 5}, screenCoord: {x: 377, y: 416}}
-  // if(storeRoom(room, 1))
-  //   drawRoom(room)
-  //
-  // room = {mapPos: {row: 10, col: 14}, dimensions: {nbRows: 8, nbCols: 5}, screenCoord: {x: 143, y: 195}}
-  // if(storeRoom(room, 2))
-  //   drawRoom(room)
-  //
-  // room = {mapPos: {row: 7, col: 7}, dimensions: {nbRows: 9, nbCols: 3}, screenCoord: {x: 104, y: 104}}
-  // if(storeRoom(room, 3))
-  //   drawRoom(room)
-  //
-  // room = {mapPos: {row: 2, col: 25}, dimensions: {nbRows: 3, nbCols: 4}, screenCoord: {x: 39, y: 338}}
-  // if(storeRoom(room, 4))
-  //   drawRoom(room)
-  //
-  // room = {mapPos: {row: 22, col: 6}, dimensions: {nbRows: 4, nbCols: 7}, screenCoord: {x: 299, y: 91}}
-  // if(storeRoom(room, 5))
-  //   drawRoom(room)
 }
 
 generateDungeon()
-
-
-
-// function printHeader() {
-//   const width = relativeScreenLength(tilesPerRow)
-//   const height = relativeScreenLength(tilesPerCol)
-//
-//   const initX = 13
-//   const initY = 0
-//
-//   // room tile borders
-//   ctx.fillStyle = "#abab9a"
-//   ctx.fillRect(initX, initY, width, 14)
-//
-//   // room tiles
-//   ctx.fillStyle = "#cfcfff"
-//   for(let i=0; i<1; i++) {
-//     for(let j=0; j<tilesPerRow; j++) {
-//       ctx.fillRect(initX + relativeScreenLength(j),
-//         initY + relativeScreenLength(i),
-//         tileSize,
-//         tileSize)
-//     }
-//   }
-//
-//   // room top
-//   ctx.fillStyle = "#626258"
-//   ctx.fillRect(initX, screenCoord.y, width, 2 * tileBorder)
-// }
-//
-// function printFooter() {
-//   const width = relativeScreenLength(tilesPerRow)
-//   const height = relativeScreenLength(tilesPerCol)
-//
-//   const initX = 13
-//   const initY = canvas.height - 13
-//
-//   // room tile borders
-//   ctx.fillStyle = "#abab9a"
-//   ctx.fillRect(initX, initY, width, 14)
-//
-//   // room tiles
-//   ctx.fillStyle = "#ffcfcf"
-//   for(let i=0; i<1; i++) {
-//     for(let j=0; j<tilesPerRow; j++) {
-//       ctx.fillRect(initX + relativeScreenLength(j),
-//         initY + relativeScreenLength(i),
-//         tileSize,
-//         tileSize)
-//     }
-//   }
-//
-//   // room top
-//   ctx.fillStyle = "#626258"
-//   ctx.fillRect(initX, screenCoord.y, width, 2 * tileBorder)
-// }
-//
-// function printMap() {
-//   let currentRow = 1
-//   let outputLine = currentRow + '|'
-//
-//   for(let i=0; i<map.length; i++) {
-//     if(map[i] === undefined)
-//       map[i] = 0
-//     outputLine += map[i] + ','
-//     if(i===currentRow * tilesPerRow - 1) {
-//       currentRow = currentRow + 1
-//       outputLine = outputLine + '\n' + currentRow + '|'
-//     }
-//   }
-//
-//   // let outputLine = ''
-//   // for(let i=0; i<tilesPerCol; i++) {
-//   //   outputLine += i + '|'
-//   //   for(let j=0; j<tilesPerRow; j++) {
-//   //     let index = j + i*tilesPerRow
-//   //
-//   //     if(map[index] === undefined)
-//   //       map[index] = 0
-//   //
-//   //     outputLine += map[index] + ','
-//   //   }
-//   //   outputLine += '\n'
-//   // }
-//
-//   console.log(outputLine)
-// }
-//
-// printHeader()
-// printFooter()
-// printMap()

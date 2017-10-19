@@ -8,11 +8,9 @@ canvas.addEventListener('mousemove', function(e) {
 canvas.width = 640
 canvas.height = 480
 
-const tileSize = 12
+const tileSize = 6
 const tileBorder = 1
-const nbRooms = 15
-const tilesPerRow = Math.floor(canvas.width / (tileSize + tileBorder)) - 2 // margin left/right
-const tilesPerCol = Math.floor(canvas.height / (tileSize + tileBorder)) - 2 // margin top/bottom
+const nbRooms = 100
 let map
 
 // from: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
@@ -67,8 +65,8 @@ function drawRoom(room) {
 function createRoom() {
   return {
     mapPos: {
-      row: getRandomIntInclusive(0, tilesPerRow - 1),
-      col: getRandomIntInclusive(0, tilesPerCol - 1)
+      row: getRandomIntInclusive(0, map.cols - 1),
+      col: getRandomIntInclusive(0, map.rows - 1)
     },
     dimensions: {
       nbRows: getRandomIntInclusive(3, 10),
@@ -80,26 +78,44 @@ function createRoom() {
 function storeRoom(room, value) {
 
   // will it overflow the map?
-  if(room.mapPos.row + room.dimensions.nbRows > tilesPerCol - 1 || // margin tile (-1)
-     room.mapPos.col + room.dimensions.nbCols > tilesPerRow - 1)
+  if(room.mapPos.row + room.dimensions.nbRows > map.rows - 1 || // margin tile (-1)
+     room.mapPos.col + room.dimensions.nbCols > map.cols - 1)
      return false
 
-  let i = room.mapPos.row*tilesPerRow + room.mapPos.col
-  const lastPos = i + (room.dimensions.nbRows - 1) * tilesPerRow + room.dimensions.nbCols
+  // has no adjacent room on top
+  // if(room.mapPos.row > 0) {
+  //
+  //   let previousRow = (room.mapPos.row - 1)*map.cols - 1 + room.dimensions.nbCols - 1
+  //
+  //   // for(let i=room.mapPos.row*map.cols - 1; 0 < i < )
+  //
+  // }
+
+  // has no adjacent room on bottom
+  // if(room.mapPos.row + room.dimensions.nbRows + 1 < map.rows) {
+  //   let nextRowBeginIndex = (room.mapPos.row + 1)*
+  // }
+
+  let i = room.mapPos.row*map.cols + room.mapPos.col
+  const lastPos = i + (room.dimensions.nbRows - 1) * map.cols + room.dimensions.nbCols
   let lastPosCurrentRow = i + room.dimensions.nbCols - 1
   let backup = []
 
-  do {
-    backup.push({ index: i, value: map[i] })
+  if(value === undefined) {
+    value = 1
+  }
 
-    if(map[i] !== undefined) {
+  do {
+    backup.push({ index: i, value: map.valueAt(i) })
+
+    if(map.valueAt(i) !== 0) {
       break
     }
 
-    map[i] = value
+    map.update(i, value)
 
     if(i === lastPosCurrentRow) {
-      i = i + tilesPerRow - room.dimensions.nbCols + 1 // switch to next row
+      i = i + map.cols - room.dimensions.nbCols + 1 // switch to next row
       lastPosCurrentRow = i + room.dimensions.nbCols - 1
     } else {
       i = i + 1 // same row
@@ -108,7 +124,7 @@ function storeRoom(room, value) {
 
   if(backup.length < room.dimensions.nbRows * room.dimensions.nbCols) {
     backup.forEach(function(elem) {
-      map[elem.index] = elem.value
+      map.update(elem.index, elem.value)
     })
     return false
   }
@@ -117,10 +133,13 @@ function storeRoom(room, value) {
 }
 
 function reset() {
-  ctx.fillStyle = "#d0d0d0"
+  ctx.fillStyle = "#31312C" //"#d0d0d0"
   ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-  map = new Array(tilesPerRow*tilesPerCol)
+  const tilesPerRow = Math.floor(canvas.width / (tileSize + tileBorder)) - 2 // margin left/right
+  const tilesPerCol = Math.floor(canvas.height / (tileSize + tileBorder)) - 2 // margin top/bottom
+
+  map = new Map(tilesPerCol, tilesPerRow)
 }
 
 function generateDungeon() {

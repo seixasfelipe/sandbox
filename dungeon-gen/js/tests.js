@@ -7,7 +7,7 @@ function result(desc, expected, actuel) {
 }
 
 function createMap() {
-  const map = new Map(6, 6)
+  let map = new Map(6, 6)
 
   /****************
   0, 0, 0, 0, 0, 0,

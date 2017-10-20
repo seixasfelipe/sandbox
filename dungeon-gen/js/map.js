@@ -41,18 +41,18 @@ class Map {
     // has no adjacent room on top
     // if(room.mapPos.row > 0) {
     //
-    //   let previousRow = (room.mapPos.row - 1)*map.cols - 1 + room.dimensions.nbCols - 1
+    //   let previousRow = (room.mapPos.row - 1)*this._cols - 1 + room.dimensions.nbCols - 1
     //
-    //   // for(let i=room.mapPos.row*map.cols - 1; 0 < i < )
+    //   // for(let i=room.mapPos.row*this._cols - 1; 0 < i < )
     //
     // }
 
     // has no adjacent room on bottom
-    // if(room.mapPos.row + room.dimensions.nbRows + 1 < map.rows) {
+    // if(room.mapPos.row + room.dimensions.nbRows + 1 < this._rows) {
     //   let nextRowBeginIndex = (room.mapPos.row + 1)*
     // }
 
-    let i = room.mapPos.row*map.cols + room.mapPos.col
+    let i = room.mapPos.row*this._cols + room.mapPos.col
     const lastPos = i + (room.dimensions.nbRows - 1) * this._cols + room.dimensions.nbCols
     let lastPosCurrentRow = i + room.dimensions.nbCols - 1
     let backup = []

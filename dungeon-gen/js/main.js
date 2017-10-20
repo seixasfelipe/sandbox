@@ -89,11 +89,11 @@ function generateDungeon() {
 
   reset()
 
-  for(let i=0; i<nbRooms; i++) {
-    let room = createRoom()
-    if(map.storeRoom(room, i+1))
-      drawRoom(room)
-  }
+  // for(let i=0; i<nbRooms; i++) {
+  //   let room = createRoom()
+  //   if(map.storeRoom(room, i+1))
+  //     drawRoom(room)
+  // }
 }
 
 generateDungeon()
